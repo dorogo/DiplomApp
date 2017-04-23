@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<data>
+    <question>
+        <text>Сколько будет 2+2</text>
+        <answer>4</answer>
+        <answer>1</answer>
+        <answer>2</answer>
+        <answer>3</answer>
+    </question>
+    <question>
+        <text>Какой сейчвс год?</text>
+        <answer>2017</answer>
+        <answer>2000</answer>
+        <answer>1800</answer>
+        <answer>2200</answer>
+    </question>
+    <question>
+        <text>Сколько пальцев на руке?</text>
+        <answer>5</answer>
+        <answer>4</answer>
+        <answer>2</answer>
+        <answer>6</answer>
+    </question>
+</data>
