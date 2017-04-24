@@ -29,7 +29,6 @@ public class CustomAdapter extends ArrayAdapter<Items> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-//        convertView = (RelativeLayout) mLayoutInflater.inflate( resource, null );
 
         View view = convertView;
         if (view == null) {
@@ -43,9 +42,6 @@ public class CustomAdapter extends ArrayAdapter<Items> {
 
         TextView txtDesc = (TextView) view.findViewById(R.id.secondLabel);
         txtDesc.setText(item.getResult());
-
-
-
         return view;
     }
 }

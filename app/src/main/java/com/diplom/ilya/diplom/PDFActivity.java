@@ -1,15 +1,9 @@
 package com.diplom.ilya.diplom;
 
 import android.Manifest;
-import android.app.DownloadManager;
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.pm.PackageManager;
-import android.content.res.Configuration;
-import android.os.AsyncTask;
 import android.os.Environment;
-import android.os.PowerManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -23,33 +17,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.diplom.ilya.diplom.utils.AsyncResponse;
 import com.diplom.ilya.diplom.utils.DownloadTask;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.diplom.ilya.diplom.utils.Downloader;
 import com.diplom.ilya.diplom.utils.Utils;
 import com.github.barteksc.pdfviewer.PDFView;
 import com.github.barteksc.pdfviewer.listener.OnErrorListener;
 import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener;
 import com.github.barteksc.pdfviewer.listener.OnPageChangeListener;
 import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle;
-import cz.msebera.android.httpclient.HttpEntity;
-import cz.msebera.android.httpclient.HttpResponse;
-import cz.msebera.android.httpclient.client.HttpClient;
-import cz.msebera.android.httpclient.client.methods.HttpPost;
-import cz.msebera.android.httpclient.impl.client.DefaultHttpClient;
-import cz.msebera.android.httpclient.util.EntityUtils;
 
 import java.io.*;
-import java.net.*;
-
-import static android.provider.Telephony.Mms.Part.FILENAME;
 
 
-public class Main2Activity extends AppCompatActivity implements AsyncResponse{
+public class PDFActivity extends AppCompatActivity implements AsyncResponse{
 
     private PDFView pdf;
 
@@ -74,7 +52,7 @@ public class Main2Activity extends AppCompatActivity implements AsyncResponse{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main2);
+        setContentView(R.layout.activity_pdf);
 
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
         toolbar.setTitle(getIntent().getStringExtra("title"));
@@ -110,7 +88,7 @@ public class Main2Activity extends AppCompatActivity implements AsyncResponse{
 
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
 
-                    Toast.makeText(Main2Activity.this, "moved to " + edittext.getText(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PDFActivity.this, "moved to " + edittext.getText(), Toast.LENGTH_SHORT).show();
                     if (!edittext.getText().toString().isEmpty() && Integer.parseInt(edittext.getText().toString()) <= pdf.getPageCount()) {
                         pdf.jumpTo(Integer.parseInt(edittext.getText().toString()) - 1);
                     }
@@ -123,13 +101,9 @@ public class Main2Activity extends AppCompatActivity implements AsyncResponse{
             }
         });
 
-
-
         DownloadTask downloadTask = new DownloadTask(this);
         downloadTask.setDelegate(this);
-        downloadTask.execute("https://testingd.azurewebsites.net/data" + Utils.encodeURL(getIntent().getStringExtra("path")));
-
-
+        downloadTask.execute(getString(R.string.data_URL) + Utils.encodeURL(getIntent().getStringExtra("path")));
     }
 
 

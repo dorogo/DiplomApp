@@ -5,6 +5,7 @@ import android.content.Context;
 import com.android.volley.*;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.diplom.ilya.diplom.R;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -34,7 +35,7 @@ public class RunRequests {
         RequestQueue queue = Volley.newRequestQueue(context);
         String url = null;
         try {
-            url = "https://testingd.azurewebsites.net/files?path=data/" + URLEncoder.encode(pathFrom, "UTF-8");
+            url = context.getString(R.string.get_files_URL) + URLEncoder.encode(pathFrom, "UTF-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }

@@ -3,6 +3,7 @@ package com.diplom.ilya.diplom;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -38,8 +39,6 @@ public class SigninFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
     }
 
     @Override
@@ -84,8 +83,8 @@ public class SigninFragment extends Fragment {
         RadioButton radioButton = (RadioButton)radioButtonGroup.findViewById(radioButtonID);
 
         // Store values at the time of the login attempt.
-        String email = mEmailView.getText().toString();
-        String password = mPasswordView.getText().toString();
+        final String email = mEmailView.getText().toString();
+        final String password = mPasswordView.getText().toString();
         String degree = (String) radioButton.getText();
 
         boolean cancel = false;
@@ -118,7 +117,6 @@ public class SigninFragment extends Fragment {
             // perform the user login attempt.
             showProgress(true);
             RequestQueue queue = Volley.newRequestQueue(getActivity());
-            String URL = "https://testingd.azurewebsites.net/users/" ;
             // Post params to be sent to the server
             HashMap<String, String> params = new HashMap<String, String>();
             params.put("name", email);
@@ -129,25 +127,21 @@ public class SigninFragment extends Fragment {
             }
             params.put("degree", degree);
 
-
-            JsonObjectRequest req = new JsonObjectRequest(URL, new JSONObject(params),
+            JsonObjectRequest req = new JsonObjectRequest(getString(R.string.registry_URL), new JSONObject(params),
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
                             try {
                                 VolleyLog.v("Response:%n %s", response.toString(4));
                                 showProgress(false);
-
+                                mPasswordView.setText("");
+                                mEmailView.setText("");
                                 FragmentTabHost mTabHost = (FragmentTabHost)getActivity().findViewById(android.R.id.tabhost);
                                 mTabHost.setCurrentTab(0);
-
-//                                getActivity().finish();
-//                                Intent i = new Intent();
-//                                i.setClass(getActivity().getApplicationContext(), ChooseSubjectActivity.class);
-
-//                                i.putExtra("title", getTitle());
-//                                i.putExtra("path", getIntent().getStringExtra("path") + "/" + o.toString());
-//                                startActivity(i);
+                                Intent i = getActivity().getIntent();
+                                i.putExtra("password" , password);
+                                i.putExtra("login" , email);
+//                                getActivity().setIntent(i);
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -157,7 +151,7 @@ public class SigninFragment extends Fragment {
                 public void onErrorResponse(VolleyError error) {
                     VolleyLog.e("Error: ", error.getMessage());
                     showProgress(false);
-                    Toast.makeText(getActivity(), "Cant reg!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Cant registry!", Toast.LENGTH_SHORT).show();
                 }
             });
 
@@ -166,12 +160,10 @@ public class SigninFragment extends Fragment {
         }
     }
     private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
         return email.contains("@");
     }
 
     private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
         return password.length() > 4;
     }
 

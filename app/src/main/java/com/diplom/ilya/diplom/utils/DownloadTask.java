@@ -21,15 +21,12 @@ public class DownloadTask extends AsyncTask<String, Integer, String> {
     private Context context;
     private PowerManager.WakeLock mWakeLock;
     private ProgressDialog mProgressDialog;
-
-
-
     private AsyncResponse delegate;
 
     public DownloadTask(Context context) {
         this.context = context;
         mProgressDialog = new ProgressDialog(context);
-        mProgressDialog.setMessage("A message");
+        mProgressDialog.setMessage("Loading... Please wait.");
         mProgressDialog.setIndeterminate(true);
         mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         mProgressDialog.setCancelable(true);
@@ -37,7 +34,6 @@ public class DownloadTask extends AsyncTask<String, Integer, String> {
             @Override
             public void onCancel(DialogInterface dialog) {
                 DownloadTask.this.cancel(true);
-//                    downloadTask.cancel(true);
             }
         });
 

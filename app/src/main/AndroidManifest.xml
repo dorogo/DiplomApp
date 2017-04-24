@@ -20,7 +20,7 @@
             android:theme="@style/AppTheme">
 
         <activity
-                android:name=".Main2Activity"
+                android:name=".PDFActivity"
                 android:configChanges="orientation|screenSize"
                 android:theme="@style/AppTheme.NoActionBar">
         </activity>

@@ -11,7 +11,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 import com.diplom.ilya.diplom.CustomAdapter.CustomAdapter;
 import com.diplom.ilya.diplom.CustomAdapter.Items;
 import com.diplom.ilya.diplom.utils.AsyncResponse;
@@ -24,8 +23,8 @@ public class ChooseFileActivity extends AppCompatActivity implements AsyncRespon
     private ListView listView;
     private String[] arrFilesForPath;
     private ArrayList<Items> arrItems;
+    private CustomAdapter customAdapter;
 
-    private int qq = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +46,7 @@ public class ChooseFileActivity extends AppCompatActivity implements AsyncRespon
                 if (!o.toString().equals(getString(R.string.noFileInDir))) {
                     Intent i = new Intent();
                     if (getIntent().getStringExtra("type").equals(getString(R.string.type1)) || getIntent().getStringExtra("type").equals(getString(R.string.type2))) {
-                        i.setClass(getApplicationContext(), Main2Activity.class);
+                        i.setClass(getApplicationContext(), PDFActivity.class);
                     } else if (getIntent().getStringExtra("type").equals(getString(R.string.type3))) {
                         i.setClass(getApplicationContext(), TestActivity.class);
                     }
@@ -69,12 +68,11 @@ public class ChooseFileActivity extends AppCompatActivity implements AsyncRespon
         if (resultCode == RESULT_OK) {
             arrItems.get(data.getIntExtra("id",0)).setResult(data.getIntExtra("correct", 0) + "/" + data.getIntExtra("total", 0));
             customAdapter.notifyDataSetChanged();
-            saveArray(arrItems,getIntent().getStringExtra("path"),getApplicationContext());
+            saveArray(arrItems, getIntent().getStringExtra("path"),getApplicationContext());
         }
     }
 
 
-    private CustomAdapter customAdapter;
 
     @Override
     public void asyncProcessFinished(String result) {
@@ -109,7 +107,6 @@ public class ChooseFileActivity extends AppCompatActivity implements AsyncRespon
     }
 
     private String[] loadArray(String arrayName, Context mContext) {
-//        SharedPreferences prefs = mContext.getSharedPreferences("preferencename", 0);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
         int size = prefs.getInt(arrayName + "_size", 0);
         String array[] = new String[size];

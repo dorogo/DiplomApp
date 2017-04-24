@@ -2,34 +2,23 @@ package com.diplom.ilya.diplom;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.os.Build;
-import android.os.Environment;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.transition.*;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.diplom.ilya.diplom.utils.AsyncResponse;
 import com.diplom.ilya.diplom.utils.DownloadTask;
 import com.diplom.ilya.diplom.utils.Utils;
-import junit.framework.Test;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
@@ -70,27 +59,16 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
 
 
         setTitle(getIntent().getStringExtra("title"));
-
         arrB = new Button[] {btn, btn2, btn3, btn4};
-//        HashMap<String, List<String>> hashMap = new HashMap<>();
-
 
         DownloadTask downloadTask = new DownloadTask(this);
         downloadTask.setDelegate(this);
-        downloadTask.execute("https://testingd.azurewebsites.net/data" + Utils.encodeURL(getIntent().getStringExtra("path")));
-
-
-
-
+        downloadTask.execute(getString(R.string.data_URL) + Utils.encodeURL(getIntent().getStringExtra("path")));
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-    }
-
-    public void onBtnClick(View v) {
-
     }
 
     @Override
@@ -125,8 +103,6 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
                                             intent.putExtra("id", getIntent().getIntExtra("id", 0));
                                             setResult(RESULT_OK, intent);
                                             TestActivity.this.finish();
-//                                            ChooseFileActivity q = (ChooseFileActivity) getParent();
-//                                            q.updateList("worked!");
                                         }
                                     });
                     AlertDialog alert = builder.create();
@@ -158,9 +134,6 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
             }
             isClicked = true;
         }
-
-
-
     }
 
     private void resetBtns() {
@@ -195,9 +168,6 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
     public void asyncProcessFinished(String file) {
         List<String> tmpList = new ArrayList<>();
         try {
-//            XmlPullParser xpp = getResources().getXml(R.xml.data);
-//            XmlPullParser xpp = getResources().getXml(R.xml.data);
-//            String file = Environment.getExternalStorageDirectory() + File.separator + "SmsContactsBackup/logs/calllogs_20130412125502.xml";
             XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
             factory.setNamespaceAware(true);
             XmlPullParser xpp = factory.newPullParser();
@@ -235,8 +205,6 @@ public class TestActivity extends AppCompatActivity implements View.OnClickListe
         shuffleArray(arrB);
         iter = list.listIterator();
         t.setText(iter.next().get(0));
-//        t.setText(list.get(0).get(0));
-
 
         arrB[0].setTag("true");
         for (int i = 0; i < arrB.length; i++) {

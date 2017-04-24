@@ -23,7 +23,6 @@ import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.diplom.ilya.diplom.utils.Utils;
-import com.github.barteksc.pdfviewer.util.Util;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -85,7 +84,19 @@ public class LoginFragment extends Fragment {
         if (!userName.isEmpty() && !pass.isEmpty()) {
             processLogin(userName, pass);
         }
+
         return v;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        //проверка - если произошло переключение со вкладки регистрации - то заполнить поля данными
+        if (getActivity().getIntent().getStringExtra("password") != null &&
+                getActivity().getIntent().getStringExtra("login") != null) {
+            mPasswordView.setText(getActivity().getIntent().getStringExtra("password"));
+            mEmailView.setText(getActivity().getIntent().getStringExtra("login"));
+        }
     }
 
     private void attemptLogin() {
@@ -139,20 +150,18 @@ public class LoginFragment extends Fragment {
         i.setClass(getActivity().getApplicationContext(), ChooseSubjectActivity.class);
         i.putExtra("user", name);
         i.putExtra("degree", degree);
-//                                i.putExtra("path", getIntent().getStringExtra("path") + "/" + o.toString());
         startActivity(i);
     }
 
     private void processLogin(final String userName, final String pass){
         showProgress(true);
         RequestQueue queue = Volley.newRequestQueue(getActivity());
-        String URL = "https://testingd.azurewebsites.net/login/";
         // Post params to be sent to the server
         HashMap<String, String> params = new HashMap<String, String>();
         params.put("name", userName);
         params.put("password", pass);
 
-        JsonObjectRequest req = new JsonObjectRequest(URL, new JSONObject(params),
+        JsonObjectRequest req = new JsonObjectRequest(getString(R.string.login_URL), new JSONObject(params),
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -164,7 +173,6 @@ public class LoginFragment extends Fragment {
                             if (savePassCheckBox.isChecked()){
                                 prefs.edit().putString("user",userName).apply();
                                 prefs.edit().putString("password", pass).apply();
-//                                prefs.edit().putString("degree", response.get("degree").toString()).apply();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -182,12 +190,10 @@ public class LoginFragment extends Fragment {
     }
 
     private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
         return email.contains("@");
     }
 
     private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
         return password.length() > 4;
     }
 

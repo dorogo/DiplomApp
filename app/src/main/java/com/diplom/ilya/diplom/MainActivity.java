@@ -27,13 +27,6 @@ public class MainActivity extends AppCompatActivity {
         mTabHost.addTab(
                 mTabHost.newTabSpec("tab2").setIndicator(getString(R.string.signin), null),
                 SigninFragment.class, null);
-
-//        mTabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
-//            @Override
-//            public void onTabChanged(String tabId) {
-//
-//            }
-//        });
     }
 
 
